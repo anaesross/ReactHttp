@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import './AdicionarUsuario.css'
 
+
 class AdicionarUsuario extends Component {
 
   constructor(props) {
@@ -22,12 +23,22 @@ class AdicionarUsuario extends Component {
 
   onSubmitHandler(event) {
     event.preventDefault()
-    const id = Math.floor(Math.random() * 1000)
-    const usuario = { ...this.state.usuario, id }
+    //const id = Math.floor(Math.random() * 1000)
+    //const usuario = { ...this.state.usuario, id }
+    const usuario = this.state.usuario
 
-    this.setState({ usuario: { nome: '', sobrenome: '', email: '' } })
-    this.props.adicionarUsuario(usuario)
-  }
+    fetch('https://reqres.in/api/Users', {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(usuario) //converte o valor em JSON
+    })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        console.log(dados)
+        this.setState({ usuario: { id: '', nome: '', ano: '' } })
+        this.props.adicionarUsuario(usuario)
+      })
+    }
 
   render() {
     return (
@@ -35,6 +46,16 @@ class AdicionarUsuario extends Component {
         <h2>Adicionar Usuário</h2>
         <form onSubmit={this.onSubmitHandler}>
           <div className="Linha">
+            <div className="Coluna">
+              <label>ID</label>
+              <input
+                type="text"
+                name="id"
+                value={this.state.usuario.id}
+                onChange={this.onChangeHandler}
+                required>
+              </input>
+            </div>
             <div className="Coluna">
               <label>Nome</label>
               <input
@@ -45,24 +66,14 @@ class AdicionarUsuario extends Component {
                 required>
               </input>
             </div>
-            <div className="Coluna">
-              <label>Sobrenome</label>
-              <input
-                type="text"
-                name="sobrenome"
-                value={this.state.usuario.sobrenome}
-                onChange={this.onChangeHandler}
-                required>
-              </input>
-            </div>
           </div>
           <div className="Linha">
             <div className="Coluna">
-              <label>Email</label>
+              <label>Ano</label>
               <input
-                type="email"
-                name="email"
-                value={this.state.usuario.email}
+                type="text"
+                name="ano"
+                value={this.state.usuario.ano}
                 onChange={this.onChangeHandler}
                 required>
               </input>

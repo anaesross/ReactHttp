@@ -8,7 +8,7 @@ function Usuario(props) {
       <ul>
         <li><strong>ID:</strong> {props.usuario.id}</li>
         <li><strong>Nome:</strong> {props.usuario.nome} {props.usuario.sobrenome}</li>
-        <li><strong>Email:</strong> {props.usuario.email}</li>
+        <li><strong>Email:</strong> {props.usuario.ano}</li>
       </ul>
       <button onClick={props.removerUsuario}>&times;</button>
     </div>
